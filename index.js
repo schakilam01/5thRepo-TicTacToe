@@ -21,9 +21,17 @@ function checkwinner() {
         const condition = winconditons[index]
         const [cell1, cell2, cell3] = condition
         if (gamestate[cell1] == currentplayer && gamestate[cell2] == currentplayer && gamestate[cell3] == currentplayer) {
-            iswinner=true
+            iswinner = true
             break
         }
+    }
+
+    if (iswinner === true) {
+        statustext.textContent = currentplayer + " Wins!"
+        running = false
+    } else if (!gamestate.includes("")) {
+        statustext.textContent = "Draw"
+        running = false
     }
 }
 
@@ -43,12 +51,24 @@ function clickcell(event) {
     }
 }
 
+function restart() {
+    running = true
+    gamestate = ["", "", "", "", "", "", "", "", "",]
+    for (let index = 0; index < cells.length; index++) {
+        const cell = cells[index]
+        cell.textContent = ""
+    }
+    currentplayer = "X"
+    statustext.textContent = ""
+}
+
 function init() {
     for (let index = 0; index < cells.length; index++) {
         const cell = cells[index]
         cell.addEventListener("click", clickcell)
     }
     running = true
+    restartbutton.addEventListener("click",restart)
 }
 
 init()
